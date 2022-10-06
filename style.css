@@ -1,0 +1,14 @@
+.wrapper {
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+}
+
+.search-form {
+    display: flex;
+}
+
+.search-form__search-input {
+    width: 100%;
+}
