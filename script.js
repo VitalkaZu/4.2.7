@@ -7,51 +7,30 @@ const autoComplete = document.querySelector(".auto-complete");
 const url = "https://api.github.com/search/repositories?q=tetris&sort=stars&order=desc&per_page=2";
 
 
-
+function clear(domElem) {
+    domElem.innerHTML = "";
+}
 
 async function loadData(name) {
     const resultLoad = await fetch(`https://api.github.com/search/repositories?q=${name}&sort=stars&order=desc&per_page=5`);
-    console.log(resultLoad);
     const arrResult = await resultLoad.json();
-    autoComplete.innerHTML = "";
+    console.log(arrResult);
+    clear(autoComplete);
      const listSearch = document.createElement("ul");
+     listSearch.classList.add("list-search");
      if(arrResult.items) {
          arrResult.items.forEach(item => {
                  const rowSearch = document.createElement("li");
                  rowSearch.classList.add("item-search");
                  rowSearch.textContent = item.name;
+                 rowSearch.addEventListener("click",()=> {
+                     console.log(item.stargazers_count);
+                 })
                  listSearch.appendChild(rowSearch);
              }
          )
      }
-
     autoComplete.appendChild(listSearch);
-    // console.log(arrResult.items)
-    //
-    // arrResult.then(result => {
-    //     console.log(result.items);
-    //     // result.items.forEach(item => {
-    //     //     autoComplete.appendChild(item.name)
-    //     // })
-    // })
-    //
-
-    // resultLoad.then(response =>{
-    //     const arrResult = response.json();
-    //     arrResult.then(result => {
-    //         console.log(result.items);
-    //         // result.items.forEach(item => {
-    //         //     autoComplete.appendChild(item.name)
-    //         // })
-    //     })
-    //     // response.forEach(item => {
-    //     //     autoComplete.appendChild(response.json())
-    //     // })
-    //
-    //     console.log(arrResult);
-    // }).catch ((e) => {
-    //     console.log(e)
-    // })
 }
 
 
@@ -63,7 +42,7 @@ function printInputValue () {
     if(searchInput.value) {
         loadData(searchInput.value);
         console.log(searchInput.value);
-    }
+    } else clear(autoComplete);
 }
 
 function debounce (func, timeInterval) {
