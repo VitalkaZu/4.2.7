@@ -1,10 +1,10 @@
 const searchInput = document.querySelector(".search-form__search-input");
 const autoComplete = document.querySelector(".auto-complete");
+const listRepo = document.querySelector(".list-repo");
 
 
 
-
-const url = "https://api.github.com/search/repositories?q=tetris&sort=stars&order=desc&per_page=2";
+// const url = "https://api.github.com/search/repositories?q=tetris&sort=stars&order=desc&per_page=2";
 
 
 function clear(domElem) {
@@ -24,7 +24,10 @@ async function loadData(name) {
                  rowSearch.classList.add("item-search");
                  rowSearch.textContent = item.name;
                  rowSearch.addEventListener("click",()=> {
-                     console.log(item.stargazers_count);
+                     // console.log(item.stargazers_count);
+                     clear(autoComplete);
+                     searchInput.value = "";
+                     addCardRepo(item.name, item.owner.login, item.stargazers_count);
                  })
                  listSearch.appendChild(rowSearch);
              }
@@ -56,3 +59,31 @@ function debounce (func, timeInterval) {
         this.lastCallTimer = setTimeout(() => func(...arg),timeInterval);
     }
 }
+
+function addCardRepo(name, owner, stars) {
+    const cardRepo = document.createElement("div");
+    cardRepo.classList.add("item-repo");
+    cardRepo.innerHTML = `<div class="item-repo__text"><p>Name: ${name}</p>
+                            <p>Owner: ${owner}</p>
+                            <p>Stars: ${stars}</p>
+                            </div>
+                            <div class="delete-icon"></div>`
+    listRepo.appendChild(cardRepo);
+}
+
+
+listRepo.onclick = function(event) {
+    // console.log(event.target.className);
+    if (event.target.className == "delete-icon") {
+
+        let item = event.target.closest('.item-repo'); // (1)
+
+        if (!item) return; // (2)
+
+        if (!listRepo.contains(item)) return; // (3)
+        // console.log(item.textContent)
+        item.remove();
+        // highlight(td); // (4)
+    }
+
+};
