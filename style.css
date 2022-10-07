@@ -57,19 +57,15 @@
     margin: 0;
 }
 
-
-
 .delete-icon {
-    /*position: absolute;*/
-    /*top: 30px;*/
-    /*right: 20px;*/
+    position: absolute;
+    top: 44px;
+    right: 20px;
     width: 45px;
     height: 45px;
     opacity: 0.2;
     cursor: pointer;
     transition: opacity ease 0.5s;
-
-
 }
 
 .delete-icon:hover {

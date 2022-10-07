@@ -2,15 +2,6 @@ const searchInput = document.querySelector(".search-form__search-input");
 const autoComplete = document.querySelector(".auto-complete");
 const listRepo = document.querySelector(".list-repo");
 
-
-
-// const url = "https://api.github.com/search/repositories?q=tetris&sort=stars&order=desc&per_page=2";
-
-
-function clear(domElem) {
-    domElem.innerHTML = "";
-}
-
 async function loadData(name) {
     const resultLoad = await fetch(`https://api.github.com/search/repositories?q=${name}&sort=stars&order=desc&per_page=5`);
     const arrResult = await resultLoad.json();
@@ -36,9 +27,11 @@ async function loadData(name) {
     autoComplete.appendChild(listSearch);
 }
 
+function clear(domElem) {
+    domElem.innerHTML = "";
+}
 
 const debouncePrintInputValue = debounce(printInputValue, 500);
-
 searchInput.addEventListener("input", debouncePrintInputValue)
 
 function printInputValue () {
@@ -71,19 +64,11 @@ function addCardRepo(name, owner, stars) {
     listRepo.appendChild(cardRepo);
 }
 
-
 listRepo.onclick = function(event) {
-    // console.log(event.target.className);
     if (event.target.className == "delete-icon") {
-
-        let item = event.target.closest('.item-repo'); // (1)
-
-        if (!item) return; // (2)
-
-        if (!listRepo.contains(item)) return; // (3)
-        // console.log(item.textContent)
+        let item = event.target.closest('.item-repo');
+        if (!item) return;
+        if (!listRepo.contains(item)) return;
         item.remove();
-        // highlight(td); // (4)
     }
-
 };
